@@ -1,0 +1,3 @@
+CREATE TABLE IF NOT EXISTS MOVIES (MOVIE_ID INT, TITLE STRING, GENRE STRING)
+                        ROW FORMAT DELIMITED FIELDS TERMINATED BY '#';
+                                                LOAD DATA local INPATH '/tmp/Fall2014_HW-3_Hive/movies_new.dat' INTO TABLE MOVIES;

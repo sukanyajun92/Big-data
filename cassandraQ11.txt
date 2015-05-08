@@ -1,0 +1,24 @@
+1)
+cqlsh:sxs136330> create table newmovies(MOVIE_ID int, TITLE VARCHAR, GENRE varchar, PRIMARY KEY(MOVIE_ID));
+
+2)
+cqlsh:sxs136330> COPY sxs136330.newmovies (movie_id,title,genre) FROM '/tmp/Fall2014_HW-3_Hive/movies_new.dat' with DELIMITER = '#';
+3883 rows imported in 4.069 seconds.
+
+3)
+cqlsh:sxs136330> insert into newmovies(MOVIE_ID, TITLE, GENRE) VALUES (1162, 'New Comedy Movie','Comedy');
+
+4)
+cqlsh:sxs136330> select * from newmovies where movie_id=1150;
+
+ movie_id | genre | title
+----------+-------+-------------------------------------------------------------------
+     1150 | Drama | Return of Martin Guerre, The (Retour de Martin Guerre, Le) (1982)
+
+(1 rows)
+
+5)
+cqlsh:sxs136330> truncate newmovies;
+
+6)
+cqlsh:sxs136330> drop table newmovies;

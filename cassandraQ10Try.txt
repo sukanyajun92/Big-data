@@ -1,0 +1,47 @@
+cassandra-cli --host csac1
+  use sxs136330;
+  
+  
+1)  Create column family movies_ColumnFamily with
+...     comparator = UTF8Type and
+...     column_metadata =
+...     [
+...     {column_name: MovieID, validation_class: LongType, index_type: KEYS},
+...     {column_name: Title, validation_class: UTF8Type},
+...     {column_name: Genres, validation_class: UTF8Type}
+...     ];
+
+
+assume movies_ColumnFamily keys as utf8;
+assume movies_ColumnFamily comparator as utf8;
+assume movies_ColumnFamily validator as utf8;
+
+2) i) SET movies_ColumnFamily['70']['Title']='From Dusk Till Dawn (1996)'; 
+   SET movies_ColumnFamily['70']['Genres']='Action|Comedy|Crime|Horror|Thriller';
+   
+   ii) SET movies_ColumnFamily['83']['Title']='Once Upon a Time When We Were Colored (1995)'; 
+    SET movies_ColumnFamily['83']['Genres']='Drama';
+	
+   iii)  SET movies_ColumnFamily['112']['Title']='Escape from New York (1981)' WITH TTL = 300;
+		SET movies_ColumnFamily['112']['Genres']='Action|Adventure|Sci-Fi|Thriller' WITH TTL = 300;
+		
+3) i.GET movies_ColumnFamily['70'];
+
+ii.LIST movies_ColumnFamily;
+
+iii.DEL movies_ColumnFamily ['83'][Genres];
+
+iv.DROP COLUMN FAMILY movies_ColumnFamily;
+
+4) describe sxs136330;
+WARNING: CQL3 tables are intentionally omitted from 'describe' output.
+See https://issues.apache.org/jira/browse/CASSANDRA-4377 for details.
+
+Keyspace: sxs136330:
+  Replication Strategy: org.apache.cassandra.locator.SimpleStrategy
+  Durable Writes: true
+    Options: [replication_factor:1]
+  Column Families:
+
+
+   

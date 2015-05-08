@@ -1,0 +1,14 @@
+A = load '/Fall2014_HW-3-Pig/ratings_new.dat ' using PigStorage('#') as (RUSERID:int, RMOVIEID:int, RRATING:double, RTIMESTAMP:chararray);
+B = load '/Fall2014_HW-3-Pig/movies_new.dat ' using PigStorage('#') as (MMOVIEID:int, MTITLE:chararray, MGENRE:chararray);
+C = FILTER B BY (MGENRE matches '.*Action.*' and MGENRE matches '.*War.*');
+D = JOIN A by RMOVIEID, C by MMOVIEID;
+F = group D by RMOVIEID;
+G = foreach F generate group AS GMOVIEID, AVG(D.RRATING) as GavgRating;
+H = GROUP G ALL;
+I = foreach H generate MAX(G.GavgRating) as maxRating;
+J = filter G by GavgRating == I.maxRating;
+K = load '/Fall2014_HW-3-Pig/users_new.dat ' using PigStorage('#') as (UUSERID:int, UGENDER:chararray, UAGE:int, UOCCUPATION: chararray, UZIPCODE: chararray);
+L = FILTER K BY (UGENDER == 'F' and UAGE>=20 and UAGE<=35 and UZIPCODE matches '1.*');
+M = JOIN A BY RUSERID, L by UUSERID;
+N = JOIN J by GMOVIEID, M by RMOVIEID;
+DUMP N;

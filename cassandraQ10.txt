@@ -1,0 +1,53 @@
+1)
+cqlsh:sxs136330> CREATE TABLE MOVIES136330 (
+             ... MOVIE_ID int PRIMARY KEY,
+             ... TITLE varchar,
+             ... GENRE varchar
+             ... );
+			 
+2)
+cqlsh:sxs136330> INSERT INTO MOVIES136330(MOVIE_ID,TITLE,GENRE) VALUES (70,'From Dusk Till Dawn (1996)','Action|Comedy|Crime|Horror|Thriller');
+cqlsh:sxs136330> INSERT INTO MOVIES136330(MOVIE_id,TITLE,GENRE) VALUES (83, 'Once Upon a Time When We Were Colored (1995)','Drama');
+cqlsh:sxs136330> INSERT INTO MOVIES136330(MOVIE_id,TITLE,GENRE) VALUES (112, 'Escape from New York (1981)','Action|Adventure|Sci-Fi|Thriller') USING TTL 300;
+
+3)
+cqlsh:sxs136330> SELECT TITLE, GENRE FROM MOVIES136330 WHERE MOVIE_ID = 70;
+
+ title                      | genre
+----------------------------+-------------------------------------
+ From Dusk Till Dawn (1996) | Action|Comedy|Crime|Horror|Thriller
+
+(1 rows)
+
+cqlsh:sxs136330> SELECT * FROM MOVIES136330;
+
+ movie_id | genre                               | title
+----------+-------------------------------------+----------------------------------------------
+       83 |                               Drama | Once Upon a Time When We Were Colored (1995)
+      112 |    Action|Adventure|Sci-Fi|Thriller |                  Escape from New York (1981)
+       70 | Action|Comedy|Crime|Horror|Thriller |                   From Dusk Till Dawn (1996)
+
+(3 rows)
+
+cqlsh:sxs136330> delete genre from MOVIES136330 WHERE MOVIE_ID=83;
+cqlsh:sxs136330> SELECT * FROM MOVIES136330;
+
+ movie_id | genre                               | title
+----------+-------------------------------------+----------------------------------------------
+       83 |                                null | Once Upon a Time When We Were Colored (1995)
+      112 |    Action|Adventure|Sci-Fi|Thriller |                  Escape from New York (1981)
+       70 | Action|Comedy|Crime|Horror|Thriller |                   From Dusk Till Dawn (1996)
+
+(3 rows)
+
+cqlsh:sxs136330> DROP TABLE MOVIES136330;
+
+4)
+cqlsh:sxs136330> DESCRIBE KEYSPACE sxs136330;
+
+CREATE KEYSPACE sxs136330 WITH replication = {
+  'class': 'SimpleStrategy',
+  'replication_factor': '1'
+};
+
+
